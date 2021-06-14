@@ -1,4 +1,3 @@
-import { response } from "express";
 import React from "react";
 
 import { Link } from "react-router-dom";
@@ -26,18 +25,20 @@ export default class Registration extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
 
-        const {first, last, email, password} =this.state;
-        axios.post("register.js", {first, last, email, password})
-        .then(response =>
-            if (response.data.error) {
-                this.setState({error:true});
-            } else if (response.data.status === 200) {
-                location.replace("/");
-            }
+        const { first, last, email, password } = this.state;
+        axios
+            .post("register.js", { first, last, email, password })
+            .then((response) => {
+                if (response.data.error) {
+                    this.setState({ error: true });
+                } else if (response.data.status === 200) {
+                    location.replace("/");
+                }
             })
-            .catch(error => {
-                this.setState({error:true})
-            })
+            .catch((error) => {
+                console.log(error);
+                this.setState({ error: true });
+            });
     }
 
     handleChange(e) {

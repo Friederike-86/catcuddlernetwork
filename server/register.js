@@ -1,31 +1,36 @@
-const express = require("express");
-const app = express();
-const addUser = require("./server")
-const bcrypt = require ("./bcrypt.js")
+const router = require("express").Router();
+const bcrypt = require("./bcrypt.js");
+const database = require("./db.js");
 
-app.post("/register", (request, response) => {
+router.post("/register", (request, response) => {
     const { first, last, email, password } = request.body;
     if (!first || !last || !email || !password) {
-        response.render("register", {
+        response.json({
             error: "Please fill out all the input fields to register!",
             first,
             last,
+            success: false,
         });
     } else {
         bcrypt.genHash(password).then((hashedPassword) => {
-            addUser(first, last, email, hashedPassword)
+            database
+                .addUser(first, last, email, hashedPassword)
                 .then((result) => {
                     request.session.user = result.rows[0];
-                    response.redirect(302, "/profile");
+                    response.json({ success: true });
                 })
                 .catch((error) => {
                     console.log(error);
-                    response.render("register", {
-                        error: "Something went wrong with your email or password",
+                    response.json({
+                        error: "Please fill out all the input fields to register!",
                         first,
                         last,
+                        success: false,
                     });
                 });
         });
     }
 });
+
+//login
+module.exports = router;

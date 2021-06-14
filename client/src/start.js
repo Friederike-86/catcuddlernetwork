@@ -1,7 +1,17 @@
 import ReactDOM from "react-dom";
+import axios from "axios";
 
-ReactDOM.render(<HelloWorld />, document.querySelector("main"));
+import Logo from "./Logo";
+import Welcome from "./Welcome";
 
-function HelloWorld() {
-    return <div>Hello, World!</div>;
-}
+axios.get("/user/id.json").then((response) => {
+    console.log(response.data);
+
+    if (response.data.userId) {
+        // userId is truthy -> user has signed up / logged in
+        ReactDOM.render(<Logo />, document.querySelector("main"));
+    } else {
+        // userId is falsy -> user is not logged in
+        ReactDOM.render(<Welcome />, document.querySelector("main"));
+    }
+});

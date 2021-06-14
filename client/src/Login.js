@@ -1,4 +1,5 @@
-const { response } = require("express");
+import React from "react";
+import axios from "./axios";
 
 export default class Login extends React.Component {
     constructor(props) {
@@ -6,7 +7,7 @@ export default class Login extends React.Component {
         this.state = {
             email: "",
             password: "",
-            error: false
+            error: false,
         };
         this.handleInput = this.handleInput.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -14,22 +15,23 @@ export default class Login extends React.Component {
 
     handleInput(target, value) {
         this.setState({
-            [target]: value
+            [target]: value,
         });
     }
 
     handleSubmit(e) {
         e.preventDefault();
         const { email, password } = this.state;
-        axios.post("/login.json", { email, password })
-            .then(response => {
+        axios
+            .post("/login.json", { email, password })
+            .then((response) => {
                 if (response.data.error) {
                     this.setState({ error: true });
                 } else if (response.data.status === 200) {
                     location.replace("/");
                 }
             })
-            .catch(error => {
+            .catch((error) => {
                 this.setState({ error: true });
             });
     }
@@ -53,7 +55,6 @@ export default class Login extends React.Component {
                         placeholder="Password"
                         type="password"
                     ></input>
-                    < error={this.state.error} />
                     <button type="submit">Login</button>
                 </form>
             </>

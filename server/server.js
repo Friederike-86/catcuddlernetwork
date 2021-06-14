@@ -4,12 +4,12 @@ const compression = require("compression");
 const path = require("path");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
-const secrets = require("../secrets.json");
-const { response } = require("express");
+const secrets = require("./secrets.json");
 
+const register = require("./register");
 
-const register = require ("./register");
-const login = require ("./login");
+app.use(express.static(path.join(__dirname, "..", "client", "public")));
+app.use(express.json());
 
 app.use(compression());
 app.use(
@@ -19,8 +19,6 @@ app.use(
     })
 );
 
-app.use(express.json());
-
 app.use(csurf());
 
 app.use(function (request, response, next) {
@@ -28,15 +26,11 @@ app.use(function (request, response, next) {
     next();
 });
 
-app.use(express.static(path.join(__dirname, "..", "client", "public")));
-
 app.use(register);
-app.use(login);
 
 app.get("/user/id.json", (request, response) => {
-    response.json({ id: request.session.user })
-    });
-
+    response.json({ id: request.session.user });
+});
 
 app.get("*", function (request, response) {
     response.sendFile(path.join(__dirname, "..", "client", "index.html"));
