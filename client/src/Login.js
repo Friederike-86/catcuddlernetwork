@@ -53,7 +53,7 @@ export default class Login extends React.Component {
                         placeholder="Password"
                         type="password"
                     ></input>
-                    <Error error={this.state.error} />
+                    < error={this.state.error} />
                     <button type="submit">Login</button>
                 </form>
             </>

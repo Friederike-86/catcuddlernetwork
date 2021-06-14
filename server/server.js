@@ -35,7 +35,7 @@ app.use(login);
 
 app.get("/user/id.json", (request, response) => {
     response.json({ id: request.session.user })
-    };
+    });
 
 
 app.get("*", function (request, response) {
