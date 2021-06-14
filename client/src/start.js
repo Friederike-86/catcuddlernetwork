@@ -7,7 +7,7 @@ import Welcome from "./Welcome";
 axios.get("/user/id.json").then((response) => {
     console.log(response.data);
 
-    if (response.data.userId) {
+    if (response.data.id) {
         // userId is truthy -> user has signed up / logged in
         ReactDOM.render(<Logo />, document.querySelector("main"));
     } else {

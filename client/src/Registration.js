@@ -27,11 +27,11 @@ export default class Registration extends React.Component {
 
         const { first, last, email, password } = this.state;
         axios
-            .post("register.js", { first, last, email, password })
+            .post("/register", { first, last, email, password })
             .then((response) => {
                 if (response.data.error) {
                     this.setState({ error: true });
-                } else if (response.data.status === 200) {
+                } else if (response.data.success) {
                     location.replace("/");
                 }
             })

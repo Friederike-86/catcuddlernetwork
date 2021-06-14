@@ -32,5 +32,46 @@ router.post("/register", (request, response) => {
     }
 });
 
-//login
+router.post("/login.json", (request, response) => {
+    const { email, password } = request.body;
+    if (!email || !password) {
+        response.json({
+            error: "Something went wrong with your email or password",
+        });
+    } else {
+        database
+            .findUser(email)
+            .then((result) => {
+                if (!result.rows.length) {
+                    response.json({
+                        error: "Something went wrong with your email or password",
+                    });
+                    return;
+                }
+
+                bcrypt
+                    .compare(password, result.rows[0].password_hash)
+                    .then((valid) => {
+                        if (valid) {
+                            const { id, first, last, email } = result.rows[0];
+                            request.session.user = {
+                                id,
+                                first,
+                                last,
+                                email,
+                            };
+                            response.json({ success: true });
+                        } else {
+                            response.json({
+                                error: "please check if email and password are correct",
+                            });
+                        }
+                    });
+            })
+            .catch((error) => {
+                console.log(error);
+                response.redirect("/login");
+            });
+    }
+});
 module.exports = router;

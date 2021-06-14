@@ -9,13 +9,17 @@ export default class Login extends React.Component {
             password: "",
             error: false,
         };
-        this.handleInput = this.handleInput.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleInput(target, value) {
+    handleChange(e) {
+        console.log("INPUT CHANGED");
+        console.log("New Value:", e.target.value);
+        console.log("Input Field:", e.target.name);
+
         this.setState({
-            [target]: value,
+            [e.target.name]: e.target.value,
         });
     }
 
@@ -27,7 +31,7 @@ export default class Login extends React.Component {
             .then((response) => {
                 if (response.data.error) {
                     this.setState({ error: true });
-                } else if (response.data.status === 200) {
+                } else if (response.data.success) {
                     location.replace("/");
                 }
             })

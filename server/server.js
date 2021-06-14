@@ -36,6 +36,6 @@ app.get("*", function (request, response) {
     response.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
 
-app.listen(process.env.PORT || 3000, function () {
+app.listen(process.env.PORT || 3001, function () {
     console.log("I'm listening.");
 });
