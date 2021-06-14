@@ -5,6 +5,11 @@ const path = require("path");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
 const secrets = require("../secrets.json");
+const { response } = require("express");
+
+
+const register = require ("./register");
+const login = require ("./login");
 
 app.use(compression());
 
@@ -19,25 +24,23 @@ app.use(express.json());
 
 app.use(csurf());
 
-app.use(function (req, res, next) {
-    res.cookie("mytoken", req.csrfToken());
+app.use(function (request, response, next) {
+    response.cookie("mytoken", request.csrfToken());
     next();
 });
 
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
 
-app.get("/user/id.json", (req, res) => {
-    // TODO: read userId from session (req.session.userId)
-    // (you need to setup session middleware first)
-    res.json({
-        // userId: 3,
-        userId: undefined,
-        // userId: req.session.userId
-    });
-});
+app.use(register);
+app.use(login);
 
-app.get("*", function (req, res) {
-    res.sendFile(path.join(__dirname, "..", "client", "index.html"));
+app.get("/user/id.json", (request, response) => {
+    response.json({ id: request.session.user })
+    };
+
+
+app.get("*", function (request, response) {
+    response.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
 
 app.listen(process.env.PORT || 3000, function () {

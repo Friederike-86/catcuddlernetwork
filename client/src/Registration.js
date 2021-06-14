@@ -30,10 +30,13 @@ export default class Registration extends React.Component {
         axios.post("register.js", {first, last, email, password})
         .then(response =>
             if (response.data.error) {
-                this.setState({error : true});
+                this.setState({error:true});
             } else if (response.data.status === 200) {
                 location.replace("/");
             }
+            })
+            .catch(error => {
+                this.setState({error:true})
             })
     }
 
