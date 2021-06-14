@@ -12,7 +12,6 @@ const register = require ("./register");
 const login = require ("./login");
 
 app.use(compression());
-
 app.use(
     cookieSession({
         secret: secrets.SESSION_SECRET,

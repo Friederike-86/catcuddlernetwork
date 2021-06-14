@@ -22,7 +22,7 @@ export default class Login extends React.Component {
         e.preventDefault();
         const { email, password } = this.state;
         axios.post("/login.json", { email, password })
-            .then(res => {
+            .then(response => {
                 if (response.data.error) {
                     this.setState({ error: true });
                 } else if (response.data.status === 200) {
@@ -40,8 +40,19 @@ export default class Login extends React.Component {
                 <form onSubmit={this.handleSubmit}>
                     <h1>Login</h1>
                     {this.state.error && <p>Whoops: something went wrong</p>}
-                    <InputField name="email"  type="email" handleInput={this.handleInput} />
-                    <InputField name="password" type="password" handleInput={this.handleInput} />
+                    <input
+                        value={this.state.email}
+                        onChange={this.handleChange}
+                        name="email"
+                        placeholder="E-Mail"
+                    ></input>
+                    <input
+                        value={this.state.password}
+                        onChange={this.handleChange}
+                        name="password"
+                        placeholder="Password"
+                        type="password"
+                    ></input>
                     <Error error={this.state.error} />
                     <button type="submit">Login</button>
                 </form>
