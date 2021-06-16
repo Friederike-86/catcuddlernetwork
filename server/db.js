@@ -21,9 +21,16 @@ module.exports.findUser = (email) => {
     );
 };
 
-module.exports.setNewPassword = (email, tempPassword) => {return db.query (
-    `UPDATE user
-    SET password_hash = $2 WHERE email = $1;
-    [email, tempPass]
+module.exports.setNewPassword = (email, tempPassword) => {
+    return db.query(
+        `UPDATE user
+    SET password_hash = $2 WHERE email = $1;`[(email, tempPassword)]
+    );
+};
+
+module.exports.updateUserPhoto = (id, url) => {
+    return db.query(
+        "UPDATE user SET profile_picture_url = $2 WEHRE id = $1 RETURNING *;",
+        [id, url]
     );
 };

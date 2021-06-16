@@ -1,17 +1,23 @@
 import ReactDOM from "react-dom";
-import axios from "axios";
+import axios from "./axios.js";
 
-import Logo from "./Logo";
+import App from "./App.js";
+
 import Welcome from "./Welcome";
 
-axios.get("/user/id.json").then((response) => {
-    console.log(response.data);
-
-    if (response.data.id) {
-        // userId is truthy -> user has signed up / logged in
-        ReactDOM.render(<Logo />, document.querySelector("main"));
-    } else {
-        // userId is falsy -> user is not logged in
+axios.get("/user/id.json").then(function ({ data }) {
+    if (!data.id) {
         ReactDOM.render(<Welcome />, document.querySelector("main"));
+    } else {
+        ReactDOM.render(<App />, document.querySelector("main"));
     }
 });
+
+// function Weclome() {
+//     return (
+//         <div id={Welcome}>
+//             <h1>Welcome to CatCuddlers Cologne</h1>
+//         </div>
+//     )
+
+// }
