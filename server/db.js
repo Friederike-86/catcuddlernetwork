@@ -20,3 +20,10 @@ module.exports.findUser = (email) => {
         [email]
     );
 };
+
+module.exports.setNewPassword = (email, tempPassword) => {return db.query (
+    `UPDATE user
+    SET password_hash = $2 WHERE email = $1;
+    [email, tempPass]
+    );
+};

@@ -7,6 +7,8 @@ const csurf = require("csurf");
 const secrets = require("./secrets.json");
 
 const register = require("./register");
+const login = require("./login");
+const reset = require("./reset");
 
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
 app.use(express.json());
@@ -27,6 +29,8 @@ app.use(function (request, response, next) {
 });
 
 app.use(register);
+app.use(login);
+app.use(reset);
 
 app.get("/user/id.json", (request, response) => {
     response.json({ id: request.session.user });
