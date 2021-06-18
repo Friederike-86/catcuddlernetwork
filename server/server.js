@@ -40,8 +40,9 @@ app.get("/user/id.json", (request, response) => {
 });
 
 app.get("/user/data.json", (request, response) => {
-    db.getUserById(request.session.id)
+    db.getUserById(request.session.user.id)
         .then((result) => {
+            console.log(result);
             if (!result.rows.length) {
                 return response.json({
                     success: false,
@@ -58,9 +59,10 @@ app.get("/user/data.json", (request, response) => {
 });
 
 app.post(
-    "user/upload-picture.json",
+    "/user/upload-picture.json",
     uploader.single("file"),
     (request, response) => {
+        //console.log(request.file);
         if (!request.file) {
             return response.json({
                 success: false,
@@ -71,6 +73,7 @@ app.post(
             const url = s3.getS3URL(request.file.filename);
             db.updateUserPhoto(request.session.id, url)
                 .then((result) => {
+                    console.log(result);
                     delete result.rows[0].password;
                     response.json({
                         success: true,

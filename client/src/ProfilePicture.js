@@ -5,13 +5,17 @@ export default class ProfilePicture extends React.Component {
         super(props);
     }
     render() {
-        const { url } = this.props;
+        const { url, clickHandler } = this.props;
         if (!url) {
-            return <div className="default-picture">😻</div>;
+            return (
+                <div onClick={clickHandler} className="default-picture">
+                    😻
+                </div>
+            );
         }
         return (
             <div className="profile-picture">
-                <img src={url} alt={first} />
+                <img src={url} onClick={clickHandler} />
             </div>
         );
     }

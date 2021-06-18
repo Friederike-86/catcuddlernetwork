@@ -37,7 +37,7 @@ export default class Uploader extends React.Component {
                     accept="image/*"
                     onChange={(e) => this.handleFileChange(e)}
                 />
-                <button>Upload</button>
+                <button onClick={() => this.uploadFile()}>Upload</button>
             </div>
         );
     }
