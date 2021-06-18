@@ -42,7 +42,7 @@ app.get("/user/id.json", (request, response) => {
 app.get("/user/data.json", (request, response) => {
     db.getUserById(request.session.user.id)
         .then((result) => {
-            console.log(result);
+            //console.log(result);
             if (!result.rows.length) {
                 return response.json({
                     success: false,
@@ -69,24 +69,27 @@ app.post(
                 error: "Please, upload a nice Picture",
             });
         }
-        s3.uploadFile(request.file).then(() => {
-            const url = s3.getS3URL(request.file.filename);
-            db.updateUserPhoto(request.session.id, url)
-                .then((result) => {
-                    console.log(result);
-                    delete result.rows[0].password;
-                    response.json({
-                        success: true,
-                        user: result.rows[0],
+        s3.uploadFile(request.file)
+            .then(() => {
+                const url = s3.getS3URL(request.file.filename);
+                console.log(request.session.user, url);
+                db.updateUserPhoto(request.session.user.id, url)
+                    .then((result) => {
+                        console.log(result);
+                        delete result.rows[0].password;
+                        response.json({
+                            success: true,
+                            user: result.rows[0],
+                        });
+                    })
+                    .catch((error) => {
+                        response.json({
+                            success: false,
+                            error: "Whoops, there is a Server-ERROR",
+                        });
                     });
-                })
-                .catch((error) => {
-                    response.json({
-                        success: false,
-                        error: "Whoops, there is a Server-ERROR",
-                    });
-                });
-        });
+            })
+            .catch((error) => console.log(error));
     }
 );
 
