@@ -30,7 +30,24 @@ app.use(function (request, response, next) {
     response.cookie("mytoken", request.csrfToken());
     next();
 });
-
+app.post("/user/bio.json", async (request, response) => {
+    try {
+        const result = await db.setBio(
+            request.session.user.id,
+            request.body.bio
+        );
+        console.log(result);
+        response.json({
+            success: true,
+            bio: result.rows[0].bio,
+        });
+    } catch (error) {
+        response.json({
+            success: false,
+            error,
+        });
+    }
+});
 app.use(register);
 //app.use(login);
 //app.use(reset);
