@@ -85,6 +85,7 @@ export default class Registration extends React.Component {
                     <button type="submit">Create Account</button>
                 </form>
                 <Link to="/login">Already have an Acccount?</Link>
+                <Link to="/resetpassword">Forget Password?</Link>
             </>
         );
     }

@@ -11,7 +11,7 @@ const s3 = require("./s3.js");
 
 const register = require("./register");
 //const login = require("./login");
-//const reset = require("./reset");
+const reset = require("./resetpassword");
 
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
 app.use(express.json());
@@ -50,7 +50,7 @@ app.post("/user/bio.json", async (request, response) => {
 });
 app.use(register);
 //app.use(login);
-//app.use(reset);
+app.use(reset);
 
 app.get("/user/id.json", (request, response) => {
     response.json({ id: request.session.user });

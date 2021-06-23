@@ -1,12 +1,14 @@
 import React from "react";
-import axios from "axios";
+import axios from "./axios";
+import { Link } from "react-router-dom";
+
 export default class PasswordReset extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             email: "",
-            tempPassword: "",
-            newPassword: "",
+            code: "",
+            password: "",
             step: 1,
             error: false,
         };
@@ -14,15 +16,15 @@ export default class PasswordReset extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleInput(target, value) {
+    handleInput(e) {
         this.setState({
-            [target]: value,
+            [e.target.name]: e.target.value,
         });
     }
 
     handleSubmit(event) {
         event.preventDefault();
-        const { email, tempPassword, newPassword } = this.state;
+        const { email, code, password } = this.state;
         if (this.state.step === 1) {
             axios
                 .post("/password/reset/start.json", { email })
@@ -36,8 +38,8 @@ export default class PasswordReset extends React.Component {
             axios
                 .post("/password/reset/verify.json", {
                     email,
-                    tempPassword,
-                    newPassword,
+                    code,
+                    password,
                 })
                 .then((res) =>
                     res.data.error
@@ -56,31 +58,41 @@ export default class PasswordReset extends React.Component {
                         <>
                             <h1>Password Reset</h1>
                             <input
-                        value={this.state.first}
-                        onChange={this.handleChange}
-                        name="email"
-                        placeholder="Email"
-                    ></input>
-                    <input
-                        value={this.state.last}
-                        onChange={this.handleChange}
-                        name="password"
-                        placeholder="password"
-                    ></input>
-                                
+                                value={this.state.first}
+                                onChange={(e) => this.handleInput(e)}
+                                name="email"
+                                placeholder="Email"
+                            />
+
+                            <button type="submit">New Password</button>
+                        </>
+                    )}
                     {this.state.step === 2 && (
                         <>
                             <h1>Set New Password</h1>
                             <input
-                        value={this.state.last}
-                        onChange={this.handleChange}
-                        name="newpassword"
-                        placeholder="Newpassword"
-                    ></input>
-                           
+                                type="password"
+                                value={this.state.last}
+                                onChange={(e) => this.handleInput(e)}
+                                name="password"
+                                placeholder="Newpassword"
+                            />
+                            <input
+                                value={this.state.first}
+                                onChange={(e) => this.handleInput(e)}
+                                name="code"
+                                placeholder="Email-Code"
+                            />
+
                             <button type="submit">Reset</button>
                         </>
-                    )
+                    )}
+                    {this.state.step === 3 && (
+                        <>
+                            <h1>Password-reset was successfull</h1>
+                            <Link to="/login">Login again</Link>
+                        </>
+                    )}
                 </form>
             </>
         );

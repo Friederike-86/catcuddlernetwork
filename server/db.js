@@ -51,18 +51,24 @@ module.exports.setBio = (id, bio) => {
     );
 };
 
-module.exports.setResetPassword = (email, resetPassword) => {
+module.exports.setResetCode = (email, resetCode) => {
     return db.query(
         `
-        INSERT INTO reset_password (email, password)
+        INSERT INTO reset_codes (email, code)
         VALUES ($1, $2)
         `,
-        [email, resetPassword]
+        [email, resetCode]
     );
 };
 
+module.exports.getResetCode = (email) => {
+    return db.query(
+        `SELECT * FROM reset_codes WHERE email =$1 ORDER BY created_at DESC LIMIT 1`,
+        [email]
+    );
+};
 module.exports.deletePassword = (email) =>
-    db.query(`DELETE FROM reset_password WHERE email = $1`, [email]);
+    db.query(`DELETE FROM reset_codes WHERE email = $1`, [email]);
 
 module.exports.setNewPassword = (email, newPassword) => {
     return db.query(

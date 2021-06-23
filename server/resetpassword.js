@@ -3,21 +3,23 @@ const { sendEmail } = require("./ses.js");
 const { genHash } = require("./bcrypt.js");
 
 const cryptoRandomString = require("crypto-random-string");
-const express = require("express");
 
-app.post("/password/reset/reset.json", (request, response) => {
+const router = require("express").Router();
+
+router.post("/password/reset/start.json", (request, response) => {
     const { email } = request.body;
-    db.getUser(email)
+    console.log("email", email);
+    db.findUser(email)
         .then((result) => {
-            if (result.rows[0]) {
+            if (result.rows.length) {
                 request.session.email = email;
                 const resetCode = cryptoRandomString({ length: 10 });
-                db.setResetPassword(email, resetPassword)
+                db.setResetCode(email, resetCode)
                     .then(() => {
                         sendEmail(
                             email,
-                            "You can reset your password",
-                            resetCode
+                            "You can reset your password " + resetCode,
+                            "Password Reset"
                         );
                         response.status(200).json({});
                     })
@@ -33,18 +35,18 @@ app.post("/password/reset/reset.json", (request, response) => {
         });
 });
 
-app.post("/password/reset/verify.json", (request, response) => {
-    const { resetPassword, newPassword } = request.body;
-    const { email } = req.session;
-    db.setResetPassword(email, resetPassword)
+router.post("/password/reset/verify.json", (request, response) => {
+    const { code, password } = request.body;
+    const { email } = request.session;
+    db.getResetCode(email)
         .then((result) => {
-            const { code } = result.rows[0];
-            if (code === resetPassword) {
-                genHash(newPassword)
+            const savedCode = result.rows[0].code;
+            if (savedCode === code) {
+                genHash(password)
                     .then((hashedPassword) => {
                         db.setNewPassword(email, hashedPassword)
                             .then(() => {
-                                response.status(200).json({});
+                                response.status(200).json({ success: true });
                             })
                             .catch((error) => {
                                 console.log(error);
@@ -62,3 +64,5 @@ app.post("/password/reset/verify.json", (request, response) => {
             response.status(400).json({ error: true });
         });
 });
+
+module.exports = router;
