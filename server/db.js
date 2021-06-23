@@ -50,3 +50,26 @@ module.exports.setBio = (id, bio) => {
         [id, bio]
     );
 };
+
+module.exports.setResetPassword = (email, resetPassword) => {
+    return db.query(
+        `
+        INSERT INTO reset_password (email, password)
+        VALUES ($1, $2)
+        `,
+        [email, resetPassword]
+    );
+};
+
+module.exports.deletePassword = (email) =>
+    db.query(`DELETE FROM reset_password WHERE email = $1`, [email]);
+
+module.exports.setNewPassword = (email, newPassword) => {
+    return db.query(
+        `
+        UPDATE users
+        SET password_hash = $2 WHERE email = $1
+        `,
+        [email, newPassword]
+    );
+};

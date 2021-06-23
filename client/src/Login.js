@@ -60,6 +60,7 @@ export default class Login extends React.Component {
                         type="password"
                     ></input>
                     <button type="submit">Login</button>
+                    <Link to="/resetpassword">Forget Password?</Link>
                 </form>
             </>
         );
