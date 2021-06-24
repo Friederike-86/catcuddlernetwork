@@ -8,6 +8,7 @@ const secrets = require("./secrets.json");
 const db = require("./db.js");
 const uploader = require("./multer");
 const s3 = require("./s3.js");
+const friends = require("./friends");
 
 const register = require("./register");
 //const login = require("./login");
@@ -51,6 +52,7 @@ app.post("/user/bio.json", async (request, response) => {
 app.use(register);
 //app.use(login);
 app.use(reset);
+app.use(friends);
 
 app.get("/user/id.json", (request, response) => {
     response.json({ id: request.session.user });

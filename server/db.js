@@ -79,3 +79,32 @@ module.exports.setNewPassword = (email, newPassword) => {
         [email, newPassword]
     );
 };
+
+module.exports.sendFriendRequest = (senderUserId, recieverUserId) => {
+    return db.query(
+        `
+        INSERT INTO friends (sender_id, receiver_id, friendstatus) VALUES ($1, $2, false)
+        `,
+        [senderUserId, recieverUserId]
+    );
+};
+
+module.exports.deleteFriendRequest = (senderUserId, recieverUserId) => {
+    return db.query(
+        `
+        DELETE FROM friends
+        WHERE (receiver_id = $2 AND sender_id = $1) OR (receiver_id = $1 AND sender_id = $2);
+        `,
+        [senderUserId, recieverUserId]
+    );
+};
+
+module.exports.acceptFriendRequest = (senderUserId, recieverUserId) => {
+    return db.query(
+        `
+        UPDATE friends SET status=true
+        WHERE (receiver_id = $2 AND sender_id = $1) OR (receiver_id = $1 AND sender_id = $2);
+        `,
+        [senderUserId, recieverUserId]
+    );
+};
