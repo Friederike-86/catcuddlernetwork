@@ -13,6 +13,7 @@ const friends = require("./friends");
 const register = require("./register");
 //const login = require("./login");
 const reset = require("./resetpassword");
+const { response } = require("express");
 
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
 app.use(express.json());
@@ -111,6 +112,33 @@ app.post(
             .catch((error) => console.log(error));
     }
 );
+app.get("/users/:id.json", async (request, response) => {
+    const { id } = request.params;
+    try {
+        if (id == request.session.user.id) {
+            throw new Error("Whoops, that is u");
+        } else {
+            const userDetails = await db.getUserById(id);
+            if (!userDetails.rows.length) response.json({ error: true });
+            else {
+                delete userDetails.rows[0].password_hash;
+                response.json({ user: userDetails.rows[0] });
+            }
+        }
+    } catch (error) {
+        response.status(400).json({ error: true });
+    }
+});
+app.get("/findusers/users.json", async (request, response) => {
+    try {
+        const findUser = await db.findAllUser(request.query.q);
+        console.log(findUser);
+        response.json({ success: true, users: findUser.rows });
+    } catch (error) {
+        console.log(error);
+        response.status(400).json({ error: true });
+    }
+});
 
 app.get("*", function (request, response) {
     response.sendFile(path.join(__dirname, "..", "client", "index.html"));

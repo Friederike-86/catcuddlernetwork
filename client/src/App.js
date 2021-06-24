@@ -3,6 +3,9 @@ import axios from "./axios.js";
 import Uploader from "./Uploader";
 import ProfilePicture from "./ProfilePicture";
 import Profile from "./Profile";
+import FindUser from "./FindUser";
+import OtherUserProfile from "./OtherUserProfile";
+import { BrowserRouter, Route } from "react-router-dom";
 
 export default class App extends React.Component {
     constructor() {
@@ -30,53 +33,72 @@ export default class App extends React.Component {
                     <h1>Loading...</h1>
                 </div>
             );
-        }
-        return (
-            <div>
-                <h1>Welcome, {user && user.first} ! </h1>
-                <ProfilePicture
-                    url={user.profile_picture_url}
-                    first={user.first}
-                    clickHandler={() =>
-                        this.setState({ uploaderVisible: true })
-                    }
-                />
-                {uploaderVisible && (
-                    <Uploader
-                        closeHandler={() => {
-                            this.setState({ uploaderVisible: false });
-                        }}
-                        uploadDoneHandler={(url) => {
-                            this.setState({
-                                user: {
-                                    ...this.state.user,
-                                    profile_picture_url: url,
-                                },
-                                uploaderVisible: false,
-                            });
-                        }}
-                    />
-                )}
-                {user && (
-                    <Profile
-                        firstname={user.first}
-                        lastname={user.last}
-                        clickHandler={() => {
-                            this.setState({ uploaderVisible: true });
-                        }}
+        } else {
+            return (
+                <div>
+                    <h1>Welcome, {user && user.first} ! </h1>
+                    <ProfilePicture
                         url={user.profile_picture_url}
-                        bio={user.bio}
-                        saveHandler={(bio) => {
-                            this.setState({
-                                user: {
-                                    ...this.state.user,
-                                    bio,
-                                },
-                            });
-                        }}
+                        first={user.first}
+                        clickHandler={() =>
+                            this.setState({ uploaderVisible: true })
+                        }
                     />
-                )}
-            </div>
-        );
+                    {uploaderVisible && (
+                        <Uploader
+                            closeHandler={() => {
+                                this.setState({ uploaderVisible: false });
+                            }}
+                            uploadDoneHandler={(url) => {
+                                this.setState({
+                                    user: {
+                                        ...this.state.user,
+                                        profile_picture_url: url,
+                                    },
+                                    uploaderVisible: false,
+                                });
+                            }}
+                        />
+                    )}
+
+                    <BrowserRouter>
+                        <>
+                            <Route
+                                exact
+                                path="/"
+                                render={() => (
+                                    <>
+                                        <Profile
+                                            firstname={user.first}
+                                            lastname={user.last}
+                                            clickHandler={() => {
+                                                this.setState({
+                                                    uploaderVisible: true,
+                                                });
+                                            }}
+                                            url={user.profile_picture_url}
+                                            bio={user.bio}
+                                            saveHandler={(bio) => {
+                                                this.setState({
+                                                    user: {
+                                                        ...this.state.user,
+                                                        bio,
+                                                    },
+                                                });
+                                            }}
+                                        />
+                                    </>
+                                )}
+                            />
+                            <Route
+                                path="/user/:id"
+                                component={OtherUserProfile}
+                            />
+                            <Route path="/findUser" component={FindUser} />
+                        </>
+                    </BrowserRouter>
+                </div>
+            );
+        }
     }
 }

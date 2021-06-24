@@ -25,7 +25,6 @@ export default function FriendButton(props) {
             }
         }
         makeRequest();
-        return;
     }, []);
 
     async function sendRequest(action) {

@@ -12,18 +12,28 @@ module.exports.addUser = function (first, last, email, hash_password) {
         [first, last, email, hash_password]
     );
 };
-module.exports.findUser = (email) => {
+module.exports.findAllUser = (q) => {
     return db.query(
         `
-        SELECT id, first, last, email, password_hash FROM users WHERE email=$1;
+        SELECT id, first, last, email, profile_picture_url, bio FROM users WHERE first ILIKE $1 OR last ILIKE $1 LIMIT 10;
         `,
-        [email]
+        [q + "%"]
     );
 };
-module.exports.getUserById = (id) => {
+
+module.exports.findUser = (id) => {
     return db.query(
         `
         SELECT id, first, last, email, password_hash FROM users WHERE id=$1;
+        `,
+        [id]
+    );
+};
+
+module.exports.getUserById = (id) => {
+    return db.query(
+        `
+        SELECT id, first, last, email, password_hash, bio, profile_picture_url FROM users WHERE id=$1;
         `,
         [id]
     );
@@ -102,7 +112,16 @@ module.exports.deleteFriendRequest = (senderUserId, recieverUserId) => {
 module.exports.acceptFriendRequest = (senderUserId, recieverUserId) => {
     return db.query(
         `
-        UPDATE friends SET status=true
+        UPDATE friends SET friendstatus=true
+        WHERE receiver_id = $2 AND sender_id = $1;
+        `,
+        [senderUserId, recieverUserId]
+    );
+};
+module.exports.checkFriendStatus = (senderUserId, recieverUserId) => {
+    return db.query(
+        `
+        SELECT * FROM friends 
         WHERE (receiver_id = $2 AND sender_id = $1) OR (receiver_id = $1 AND sender_id = $2);
         `,
         [senderUserId, recieverUserId]
