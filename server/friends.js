@@ -30,7 +30,7 @@ router.get("/friends/status/:otherUserId.json", async (req, res) => {
                 success: true,
                 status: STATUS_REQUEST_MADEBYME,
             });
-        } else if (friendRequest.reciever_id === myUserId) {
+        } else if (friendRequest.receiver_id === myUserId) {
             res.json({
                 success: true,
                 status: STATUS_REQUEST_MADEBYOTHER,
@@ -43,7 +43,7 @@ router.get("/friends/status/:otherUserId.json", async (req, res) => {
     } catch (error) {
         console.log(error);
         res.json({
-            success: true,
+            success: false,
             error: "Server error",
         });
     }
