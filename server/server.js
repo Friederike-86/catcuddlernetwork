@@ -13,18 +13,24 @@ const friends = require("./friends");
 const register = require("./register");
 //const login = require("./login");
 const reset = require("./resetpassword");
-const { response } = require("express");
+
+const server = require("http").Server(app);
+const io = require("socket.io")(server);
 
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
 app.use(express.json());
 
 app.use(compression());
-app.use(
-    cookieSession({
-        secret: secrets.SESSION_SECRET,
-        maxAge: 1000 * 60 * 60 * 24 * 30,
-    })
-);
+const cookieSessionMiddleware = cookieSession({
+    secret: secrets.SESSION_SECRET,
+    maxAge: 1000 * 60 * 60 * 24 * 30,
+});
+
+app.use(cookieSessionMiddleware);
+
+io.use(function (socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
 
 app.use(csurf());
 
@@ -144,6 +150,48 @@ app.get("*", function (request, response) {
     response.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
 
-app.listen(process.env.PORT || 3001, function () {
+io.on("connection", function (socket) {
+    console.log("new socket client just connected", socket.id);
+
+    console.log(socket.request.session);
+
+    // if an unauthenticated user tries to connect to our WS,
+    // we directly close the connection.
+    if (!socket.request.session.userId) {
+        return socket.disconnect(true);
+    }
+
+    // if a user makes it here, they are logged in
+    const userId = socket.request.session.userId;
+
+    // this is a good place to get the last 10 chat messages,
+    // needs to be a JOIN between users & chats table,
+    // to get firstname, lastname and image of user
+    /*db.getLastTenChatMessages().then((data) => {
+        console.log(data.rows);
+        // send event to user that just connected
+        socket.emit('chatMessages', data.rows);
+    });*/
+
+    socket.emit("chatMessages", []);
+
+    socket.on("chatMessage", (newMsg) => {
+        console.log("received new message from chat.js", newMsg);
+        console.log("user id is", userId);
+
+        // 1. do a DB query to store the chat message in the chats table!
+        // 2. do a DB query to the info about that user (first, last, image)
+
+        // create chat message obj which looks exactly like the one from getLastTenChatMessages
+
+        // once we have that obj whe want to emit that message to EVERYONE
+        io.emit("chatMessage", {
+            user_id: userId,
+            message: newMsg,
+            // TODO: you need to add first, last, image
+        });
+    });
+});
+server.listen(process.env.PORT || 3001, function () {
     console.log("I'm listening.");
 });
