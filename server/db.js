@@ -127,3 +127,9 @@ module.exports.checkFriendStatus = (senderUserId, recieverUserId) => {
         [senderUserId, recieverUserId]
     );
 };
+
+module.exports.addMessage = (sender, receiver, msg) =>
+    db.query(
+        `INSERT INTO messages(sender, receiver, msg) VALUES($1, $2, $3) RETURNING *;`,
+        [sender, receiver, msg]
+    );

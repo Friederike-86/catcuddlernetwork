@@ -164,14 +164,17 @@ io.on("connection", function (socket) {
     // if a user makes it here, they are logged in
     const userId = socket.request.session.userId;
 
-    // this is a good place to get the last 10 chat messages,
-    // needs to be a JOIN between users & chats table,
-    // to get firstname, lastname and image of user
-    /*db.getLastTenChatMessages().then((data) => {
-        console.log(data.rows);
-        // send event to user that just connected
-        socket.emit('chatMessages', data.rows);
-    });*/
+    socket.on("chatMessage", async ({ msg, targetUserId }) => {
+        const response = await addMessage(id, targetUserId, msg);
+        socket.emit("chatMessage", {
+            chatWindowId: targetUserId,
+            newMessage: response.rows[0],
+        });
+        socket.to(await redis.get(targetUserId)).emit("chatMessage", {
+            chatWindowId: id,
+            newMessage: response.rows[0],
+        });
+    });
 
     socket.emit("chatMessages", []);
 
