@@ -11,6 +11,7 @@ router.post("/password/reset/start.json", (request, response) => {
     console.log("email", email);
     db.findUser(email)
         .then((result) => {
+            console.log(result);
             if (result.rows.length) {
                 request.session.email = email;
                 const resetCode = cryptoRandomString({ length: 10 });

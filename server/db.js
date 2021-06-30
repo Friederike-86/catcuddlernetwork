@@ -24,7 +24,7 @@ module.exports.findAllUser = (q) => {
 module.exports.findUser = (id) => {
     return db.query(
         `
-        SELECT id, first, last, email, password_hash FROM users WHERE id=$1;
+        SELECT id, first, last, email, password_hash FROM users WHERE email=$1;
         `,
         [id]
     );

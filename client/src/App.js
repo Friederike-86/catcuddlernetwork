@@ -6,7 +6,7 @@ import Profile from "./Profile";
 import FindUser from "./FindUser";
 import OtherUserProfile from "./OtherUserProfile";
 import Friends from "./Friends.js";
-import Chat from "./Chat.js";
+//import Chat from "./Chat.js";
 import { BrowserRouter, Route } from "react-router-dom";
 
 export default class App extends React.Component {
@@ -39,13 +39,13 @@ export default class App extends React.Component {
             return (
                 <div>
                     <h1>Welcome, {user && user.first} ! </h1>
-                    <ProfilePicture
+                    {/* <ProfilePicture
                         url={user.profile_picture_url}
                         first={user.first}
                         clickHandler={() =>
                             this.setState({ uploaderVisible: true })
                         }
-                    />
+                    /> */}
                     {uploaderVisible && (
                         <Uploader
                             closeHandler={() => {
@@ -98,7 +98,7 @@ export default class App extends React.Component {
                             />
                             <Route path="/findUser" component={FindUser} />
                             <Route path="/friends" component={Friends} />
-                            <Route path="/openchat" component={Chat} />
+                            {/* <Route path="/openchat" component={Chat} /> */}
                         </>
                     </BrowserRouter>
                 </div>

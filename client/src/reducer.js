@@ -23,7 +23,7 @@ export default function (state = {}, action) {
     } else if (action.type == "UNFRIEND") {
         state = {
             ...state,
-            friendrequest: state.friendrequest.map((user) => {
+            friendrequest: state.friendrequest.filter((user) => {
                 return user.id != action.otherUserId;
             }),
         };

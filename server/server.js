@@ -150,51 +150,51 @@ app.get("*", function (request, response) {
     response.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
 
-io.on("connection", function (socket) {
-    console.log("new socket client just connected", socket.id);
+// io.on("connection", function (socket) {
+//     console.log("new socket client just connected", socket.id);
 
-    console.log(socket.request.session);
+//     console.log(socket.request.session);
 
-    // if an unauthenticated user tries to connect to our WS,
-    // we directly close the connection.
-    if (!socket.request.session.userId) {
-        return socket.disconnect(true);
-    }
+//     // if an unauthenticated user tries to connect to our WS,
+//     // we directly close the connection.
+//     if (!socket.request.session.userId) {
+//         return socket.disconnect(true);
+//     }
 
-    // if a user makes it here, they are logged in
-    const userId = socket.request.session.userId;
+//     // if a user makes it here, they are logged in
+//     const userId = socket.request.session.userId;
 
-    socket.on("chatMessage", async ({ msg, targetUserId }) => {
-        const response = await addMessage(id, targetUserId, msg);
-        socket.emit("chatMessage", {
-            chatWindowId: targetUserId,
-            newMessage: response.rows[0],
-        });
-        socket.to(await redis.get(targetUserId)).emit("chatMessage", {
-            chatWindowId: id,
-            newMessage: response.rows[0],
-        });
-    });
+//     socket.on("chatMessage", async ({ msg, targetUserId }) => {
+//         const response = await addMessage(id, targetUserId, msg);
+//         socket.emit("chatMessage", {
+//             chatWindowId: targetUserId,
+//             newMessage: response.rows[0],
+//         });
+//         socket.to(await redis.get(targetUserId)).emit("chatMessage", {
+//             chatWindowId: id,
+//             newMessage: response.rows[0],
+//         });
+//     });
 
-    socket.emit("chatMessages", []);
+//     socket.emit("chatMessages", []);
 
-    socket.on("chatMessage", (newMsg) => {
-        console.log("received new message from chat.js", newMsg);
-        console.log("user id is", userId);
+//     socket.on("chatMessage", (newMsg) => {
+//         console.log("received new message from chat.js", newMsg);
+//         console.log("user id is", userId);
 
-        // 1. do a DB query to store the chat message in the chats table!
-        // 2. do a DB query to the info about that user (first, last, image)
+//         // 1. do a DB query to store the chat message in the chats table!
+//         // 2. do a DB query to the info about that user (first, last, image)
 
-        // create chat message obj which looks exactly like the one from getLastTenChatMessages
+//         // create chat message obj which looks exactly like the one from getLastTenChatMessages
 
-        // once we have that obj whe want to emit that message to EVERYONE
-        io.emit("chatMessage", {
-            user_id: userId,
-            message: newMsg,
-            // TODO: you need to add first, last, image
-        });
-    });
-});
+//         // once we have that obj whe want to emit that message to EVERYONE
+//         io.emit("chatMessage", {
+//             user_id: userId,
+//             message: newMsg,
+//             // TODO: you need to add first, last, image
+//         });
+//     });
+// });
 server.listen(process.env.PORT || 3001, function () {
     console.log("I'm listening.");
 });
