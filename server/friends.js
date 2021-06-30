@@ -98,4 +98,17 @@ router.post(
         }
     }
 );
+
+router.get("/friends/requests.json", async (req, res) => {
+    const { id } = req.session.user;
+    try {
+        const response = await db.getFriends(id);
+        const receivedFriendRequests = response.rows;
+        console.log(response.rows);
+        res.status(200).json(receivedFriendRequests);
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 module.exports = router;

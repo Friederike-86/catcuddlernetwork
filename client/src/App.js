@@ -5,6 +5,7 @@ import ProfilePicture from "./ProfilePicture";
 import Profile from "./Profile";
 import FindUser from "./FindUser";
 import OtherUserProfile from "./OtherUserProfile";
+import Friends from "./Friends.js";
 import { BrowserRouter, Route } from "react-router-dom";
 
 export default class App extends React.Component {
@@ -95,6 +96,7 @@ export default class App extends React.Component {
                                 component={OtherUserProfile}
                             />
                             <Route path="/findUser" component={FindUser} />
+                            <Route path="/friends" component={Friends} />
                         </>
                     </BrowserRouter>
                 </div>
