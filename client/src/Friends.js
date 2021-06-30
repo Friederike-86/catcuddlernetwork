@@ -1,27 +1,33 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { socket } from "./socket";
-import { chatMessages, chatMessage} from ".actions"
-
+import { getFriends, acceptFriends, deleteFriends } from "./action";
+import ProfilePicture from "./ProfilePicture";
 
 export default function FriendsList() {
-    const dispatch = useDispatch()
-    const friends = useSelector(state => state.friends ? state.friends.filter((friend) => friend.accepted) : null);
-const wannabees = useSelector(state => state.friends ? state.friends.filter((friend) => !friend.accepted) : null)
+    const dispatch = useDispatch();
+    const friends = useSelector((state) =>
+        state.friendrequest
+            ? state.friendrequest.filter((friend) => friend.friendstatus)
+            : null
+    );
+    const wannabees = useSelector((state) =>
+        state.friendrequest
+            ? state.friendrequest.filter((friend) => !friend.friendstatus)
+            : null
+    );
 
-
-useEffect(() => {
+    useEffect(() => {
         dispatch(getFriends());
     }, []);
 
     return (
-        <div><ul>
-                    <p> Friend Requests</p>
-         
-                
-                {friendRequests ? (
-                    friendRequests.length ? (
-                        friendRequests.map((res) => (
+        <div>
+            <ul>
+                <p> Friend Requests</p>
+
+                {wannabees ? (
+                    wannabees.length ? (
+                        wannabees.map((res) => (
                             <li key={res.id}>
                                 <div>
                                     <ProfilePicture
@@ -72,4 +78,15 @@ useEffect(() => {
                                 </button>
                             </li>
                         ))
-                
+                    ) : (
+                        <h1>No Friend Requests</h1>
+                    )
+                ) : (
+                    <div>
+                        <h1>Loading ...</h1>
+                    </div>
+                )}
+            </ul>
+        </div>
+    );
+}

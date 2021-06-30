@@ -131,11 +131,11 @@ module.exports.getFriends = (id) => {
     return db.query(
         `
         
-       	SELECT users.id, sender_id, reciever_id, friendstatus, users.first, users.last, users.profile_picture_url FROM friends
+       	SELECT users.id, sender_id, receiver_id, friendstatus, users.first, users.last, users.profile_picture_url FROM friends
 		JOIN users
-        ON (sender_id = $1 AND reciever_id = users.id AND friendstatus = TRUE)
-        OR (reciever_id = $1 AND sender_id = users.id AND friendstatus = TRUE)
-        OR (reciever_id = $1 AND sender_id =users.id AND friendstatus = FALSE)
+        ON (sender_id = $1 AND receiver_id = users.id AND friendstatus = TRUE)
+        OR (receiver_id = $1 AND sender_id = users.id AND friendstatus = TRUE)
+        OR (receiver_id = $1 AND sender_id =users.id AND friendstatus = FALSE)
         `,
         [id]
     );

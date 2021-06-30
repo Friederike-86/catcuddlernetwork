@@ -1,3 +1,3 @@
 export default function Logo() {
-    return <img className="logo" src="/logo.jpeg"></img>;
+    return <img className="logo" src="/CatCuddlers_Logo.png"></img>;
 }

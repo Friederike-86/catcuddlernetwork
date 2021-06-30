@@ -1,23 +1,30 @@
-import * as Actions from './action'
+//import * as Actions from "./action";
 
 export default function (state = {}, action) {
-    if (action.type == "GET_FRIENDS_REQUEST") {
+    if (action.type == "FRIENDSREQUEST") {
         state = {
             ...state,
-            friendrequest: action.friendrequest,
+            friendrequest: action.friends,
         };
-    } else if (action.type == "GET_FRIENDS") {
+    } else if (action.type == "ACCEPTREQUEST") {
         state = {
             ...state,
-            users: state.users.map((user) => {
-                if (user.id == action.id) {
+            friendrequest: state.friendrequest.map((user) => {
+                if (user.id == action.otherUserId) {
                     return {
                         ...user,
-                        friendrequest: true,
+                        friendstatus: true,
                     };
                 } else {
-                    return friendrequest;
+                    return user;
                 }
+            }),
+        };
+    } else if (action.type == "UNFRIEND") {
+        state = {
+            ...state,
+            friendrequest: state.friendrequest.map((user) => {
+                return user.id != action.otherUserId;
             }),
         };
     }
@@ -25,23 +32,23 @@ export default function (state = {}, action) {
     return state;
 }
 
-export default function chat(state = initialState, action) {
-  switch (action.type) {
-    case Actions.SET_MESSAG:
-      return Object.assign({}, state, {
-        messages: state.messages.concat([action.msg]),
-      })
+// export default function chat(state = initialState, action) {
+//   switch (action.type) {
+//     case Actions.SET_MESSAG:
+//       return Object.assign({}, state, {
+//         messages: state.messages.concat([action.msg]),
+//       })
 
-    case Actions.ADD_MESSAGE:
-      return Object.assign({}, state, {
-        messages: state.messages.concat([action.msg]),
-      })
+//     case Actions.ADD_MESSAGE:
+//       return Object.assign({}, state, {
+//         messages: state.messages.concat([action.msg]),
+//       })
 
-    default:
-      return state
-  }
-}
+//     default:
+//       return state
+//   }
+// }
 
-const initialState = {
-  messages: [],
-}
+// const initialState = {
+//   messages: [],
+// }
