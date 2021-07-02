@@ -8,6 +8,7 @@ import OtherUserProfile from "./OtherUserProfile";
 import Friends from "./Friends.js";
 //import Chat from "./Chat.js";
 import { BrowserRouter, Route } from "react-router-dom";
+import Navigation from "./Navigation";
 
 export default class App extends React.Component {
     constructor() {
@@ -65,6 +66,7 @@ export default class App extends React.Component {
 
                     <BrowserRouter>
                         <>
+                            <Navigation />
                             <Route
                                 exact
                                 path="/"

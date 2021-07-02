@@ -58,34 +58,42 @@ export default class Registration extends React.Component {
                 {this.state.error && <p>Whoops: something went wrong</p>}
                 <form onSubmit={this.handleSubmit}>
                     <input
+                        className="input"
                         value={this.state.first}
                         onChange={this.handleChange}
                         name="first"
                         placeholder="First Name"
                     ></input>
                     <input
+                        className="input"
                         value={this.state.last}
                         onChange={this.handleChange}
                         name="last"
                         placeholder="Last Name"
                     ></input>
                     <input
+                        className="input"
                         value={this.state.email}
                         onChange={this.handleChange}
                         name="email"
                         placeholder="E-Mail"
                     ></input>
                     <input
+                        className="input"
                         value={this.state.password}
                         onChange={this.handleChange}
                         name="password"
                         placeholder="Password"
                         type="password"
                     ></input>
-                    <button type="submit">Create Account</button>
+                    <button type="submit">Create Account 🐾</button>
                 </form>
-                <Link to="/login">Already have an Acccount?</Link>
-                <Link to="/resetpassword">Forget Password?</Link>
+                <Link className="abuttons" to="/login">
+                    Already have an Acccount? 😻
+                </Link>
+                <Link className="abuttons" to="/resetpassword">
+                    Forget Password? 🙀
+                </Link>
             </>
         );
     }

@@ -15,7 +15,11 @@ export default class Profile extends React.Component {
                 <h2>
                     {first} {last}
                 </h2>
-                <ProfilePicture url={url} clickHandler={clickHandler} />
+                <ProfilePicture
+                    className="profile-picture"
+                    url={url}
+                    clickHandler={clickHandler}
+                />
                 <BioEditor bio={bio} saveHandler={saveHandler} />
             </div>
         );
