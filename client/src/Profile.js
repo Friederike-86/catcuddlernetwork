@@ -10,7 +10,7 @@ export default class Profile extends React.Component {
     render() {
         const { first, last, url, clickHandler, bio, saveHandler } = this.props;
         return (
-            <div>
+            <div className="profile">
                 <h1>Profile Component</h1>
                 <h2>
                     {first} {last}

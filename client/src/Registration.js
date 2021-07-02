@@ -13,6 +13,7 @@ export default class Registration extends React.Component {
         this.state = {
             first: "",
             last: "",
+            city: "",
             email: "",
             password: "",
             error: false,
@@ -25,9 +26,9 @@ export default class Registration extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
 
-        const { first, last, email, password } = this.state;
+        const { first, last, city, email, password } = this.state;
         axios
-            .post("/register", { first, last, email, password })
+            .post("/register", { first, last, city, email, password })
             .then((response) => {
                 if (response.data.error) {
                     this.setState({ error: true });
@@ -71,6 +72,14 @@ export default class Registration extends React.Component {
                         name="last"
                         placeholder="Last Name"
                     ></input>
+                    <input
+                        className="input"
+                        value={this.state.city}
+                        onChange={this.handleChange}
+                        name="city"
+                        placeholder="City"
+                    ></input>
+
                     <input
                         className="input"
                         value={this.state.email}

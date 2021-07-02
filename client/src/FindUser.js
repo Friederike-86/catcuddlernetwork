@@ -50,7 +50,7 @@ export default function FindUser() {
                                             url={user.profile_picture_url}
                                         />
                                         <p>
-                                            {user.first} {user.last}
+                                            {user.first} {user.last} {user.city}
                                         </p>
                                     </Link>
                                 </>

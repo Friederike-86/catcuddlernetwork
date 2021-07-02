@@ -3,18 +3,19 @@ const bcrypt = require("./bcrypt.js");
 const database = require("./db.js");
 
 router.post("/register", (request, response) => {
-    const { first, last, email, password } = request.body;
-    if (!first || !last || !email || !password) {
+    const { first, last, city, email, password } = request.body;
+    if (!first || !last || !city || !email || !password) {
         response.json({
             error: "Please fill out all the input fields to register!",
             first,
             last,
+            city,
             success: false,
         });
     } else {
         bcrypt.genHash(password).then((hashedPassword) => {
             database
-                .addUser(first, last, email, hashedPassword)
+                .addUser(first, last, city, email, hashedPassword)
                 .then((result) => {
                     request.session.user = result.rows[0];
                     response.json({ success: true });
@@ -25,6 +26,7 @@ router.post("/register", (request, response) => {
                         error: "Please fill out all the input fields to register!",
                         first,
                         last,
+                        city,
                         success: false,
                     });
                 });
@@ -53,11 +55,13 @@ router.post("/login.json", (request, response) => {
                     .compare(password, result.rows[0].password_hash)
                     .then((valid) => {
                         if (valid) {
-                            const { id, first, last, email } = result.rows[0];
+                            const { id, first, city, last, email } =
+                                result.rows[0];
                             request.session.user = {
                                 id,
                                 first,
                                 last,
+                                city,
                                 email,
                             };
                             response.json({ success: true });

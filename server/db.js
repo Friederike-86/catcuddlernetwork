@@ -5,17 +5,17 @@ const db = spicedPG(
         "postgres:friederikegunther:postgres@localhost:5432/socialnetwork"
 );
 
-module.exports.addUser = function (first, last, email, hash_password) {
+module.exports.addUser = function (first, last, city, email, hash_password) {
     return db.query(
-        `INSERT INTO users (first, last, email, password_hash)
-                        VALUES ($1, $2, $3, $4) RETURNING id, first, last, email;`,
-        [first, last, email, hash_password]
+        `INSERT INTO users (first, last, city, email, password_hash)
+                        VALUES ($1, $2, $3, $4, $5) RETURNING id, first, last, city, email;`,
+        [first, last, city, email, hash_password]
     );
 };
 module.exports.findAllUser = (q) => {
     return db.query(
         `
-        SELECT id, first, last, email, profile_picture_url, bio FROM users WHERE first ILIKE $1 OR last ILIKE $1 LIMIT 10;
+        SELECT id, first, last, city, email, profile_picture_url, bio FROM users WHERE first ILIKE $1 OR last ILIKE $1 OR city ILIKE $1 LIMIT 10;
         `,
         [q + "%"]
     );
@@ -24,7 +24,7 @@ module.exports.findAllUser = (q) => {
 module.exports.findUser = (id) => {
     return db.query(
         `
-        SELECT id, first, last, email, password_hash FROM users WHERE email=$1;
+        SELECT id, first, last, city, email, password_hash FROM users WHERE email=$1;
         `,
         [id]
     );
@@ -33,7 +33,7 @@ module.exports.findUser = (id) => {
 module.exports.getUserById = (id) => {
     return db.query(
         `
-        SELECT id, first, last, email, password_hash, bio, profile_picture_url FROM users WHERE id=$1;
+        SELECT id, first, last, email, city, password_hash, bio, profile_picture_url FROM users WHERE id=$1;
         `,
         [id]
     );

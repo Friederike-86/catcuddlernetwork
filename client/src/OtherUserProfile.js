@@ -26,7 +26,8 @@ export default class OtherUserProfile extends React.Component {
     }
 
     render() {
-        const { first, last, profile_picture_url, bio } = this.state.user || "";
+        const { first, last, city, profile_picture_url, bio } =
+            this.state.user || "";
         const { user } = this.state;
 
         if (!user) {
@@ -41,6 +42,7 @@ export default class OtherUserProfile extends React.Component {
                     <h1>
                         {first} {last}
                     </h1>
+                    <h2> {city} </h2>
                     <ProfilePicture url={profile_picture_url} />
                     <p>{bio}</p>
                     <FriendButton otherUserId={user.id} />
