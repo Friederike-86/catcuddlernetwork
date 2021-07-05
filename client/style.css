@@ -89,3 +89,12 @@ a:hover {
     right: 10px;
     background-color: teal;
 }
+
+input[type="radio"] {
+    display: none;
+}
+
+.star {
+    cursor: pointer;
+    color: color 200ms;
+}
