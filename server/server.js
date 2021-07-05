@@ -13,6 +13,7 @@ const friends = require("./friends");
 const register = require("./register");
 //const login = require("./login");
 const reset = require("./resetpassword");
+const { request } = require("http");
 
 const server = require("http").Server(app);
 const io = require("socket.io")(server);
@@ -140,6 +141,29 @@ app.get("/findusers/users.json", async (request, response) => {
         const findUser = await db.findAllUser(request.query.q);
         console.log(findUser);
         response.json({ success: true, users: findUser.rows });
+    } catch (error) {
+        console.log(error);
+        response.status(400).json({ error: true });
+    }
+});
+app.get("/rating.json", async (request, response) => {
+    try {
+        const otherUserId = request.query.q;
+        console.log(otherUserId);
+        const result = await db.averageRating(otherUserId);
+        response.json({ success: true, rating: result.rows[0] });
+    } catch (error) {
+        console.log(error);
+        response.status(400).json({ error: true });
+    }
+});
+
+app.post("/rating.json", async (request, response) => {
+    try {
+        const { otherUserId, rating } = request.body;
+        const id = request.session.user.id;
+        await db.setRating(id, otherUserId, rating);
+        response.json({ success: true });
     } catch (error) {
         console.log(error);
         response.status(400).json({ error: true });

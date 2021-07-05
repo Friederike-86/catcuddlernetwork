@@ -2,6 +2,7 @@ import React from "react";
 import axios from "./axios";
 import ProfilePicture from "./ProfilePicture.js";
 import FriendButton from "./FriendButton.js";
+import Rating from "./Rating";
 
 export default class OtherUserProfile extends React.Component {
     constructor(props) {
@@ -46,6 +47,7 @@ export default class OtherUserProfile extends React.Component {
                     <ProfilePicture url={profile_picture_url} />
                     <p>{bio}</p>
                     <FriendButton otherUserId={user.id} />
+                    <Rating otherUserId={user.id} />
                 </div>
             );
         }

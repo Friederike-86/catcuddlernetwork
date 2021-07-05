@@ -146,3 +146,14 @@ module.exports.addMessage = (sender, receiver, msg) =>
         `INSERT INTO messages(sender, receiver, msg) VALUES($1, $2, $3) RETURNING *;`,
         [sender, receiver, msg]
     );
+
+module.exports.setRating = (sender_id, receiver_id, rating) =>
+    db.query(
+        "INSERT INTO ratings (sender_id, receiver_id, rating) VALUES ($1, $2, $3);",
+        [sender_id, receiver_id, rating]
+    );
+
+module.exports.averageRating = (receiver_id) =>
+    db.query("SELECT AVG(rating) FROM ratings WHERE receiver_id=$1", [
+        receiver_id,
+    ]);
