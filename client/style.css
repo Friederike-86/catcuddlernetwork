@@ -64,8 +64,8 @@ a:hover {
 }
 
 .default-picture {
-    width: 20px;
-    height: 20px;
+    width: 200px;
+    height: 200px;
     object-fit: cover;
     border-radius: 100%;
 }
