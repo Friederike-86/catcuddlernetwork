@@ -57,6 +57,7 @@ const Rating = (props) => {
                         </label>
                     );
                 })}
+                <p> The rating of this CatCuddler is:{Math.floor(rating)}</p>
             </div>
         );
     }

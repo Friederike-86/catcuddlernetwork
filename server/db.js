@@ -154,7 +154,7 @@ module.exports.setRating = (sender_id, receiver_id, rating) =>
     );
 
 module.exports.averageRating = (receiver_id) =>
-    db.query("SELECT *, AVG(rating) FROM ratings WHERE receiver_id=$1", [
+    db.query("SELECT AVG(rating) FROM ratings WHERE receiver_id=$1", [
         receiver_id,
     ]);
 
