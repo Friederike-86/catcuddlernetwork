@@ -13,7 +13,7 @@ export default class Profile extends React.Component {
             <div className="profile">
                 <h1>Profile Component</h1>
                 <h2>
-                    {first} {last}
+                    {first} {last} {ProfilePicture}
                 </h2>
                 <ProfilePicture
                     className="profile-picture"
