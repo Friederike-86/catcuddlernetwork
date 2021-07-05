@@ -14,13 +14,14 @@ router.get("/friends/status/:otherUserId.json", async (req, res) => {
     try {
         const result = await db.checkFriendStatus(myUserId, otherUserId);
         const friendRequest = result.rows.length > 0 ? result.rows[0] : false;
+        console.log(friendRequest);
 
         if (!friendRequest) {
             res.json({
                 success: true,
                 status: STATUS_NO_REQUEST,
             });
-        } else if (friendRequest.accepted) {
+        } else if (friendRequest.friendstatus) {
             res.json({
                 success: true,
                 status: STATUS_REQUEST_ACCEPTED,

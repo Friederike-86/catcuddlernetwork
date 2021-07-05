@@ -30,6 +30,7 @@ const Rating = (props) => {
             if (response.data.success) {
                 console.log(response.data);
                 setRating(response.data.rating.avg);
+                setRated(response.data.check);
             }
         }
         makeRequest();
@@ -86,7 +87,7 @@ const Rating = (props) => {
                     </label>
                 );
             })}
-            <p> The rating of this CatCuddler is:{rating}</p>;
+            <p> The rating of this CatCuddler is:{Math.floor(rating)}</p>
         </div>
     );
 };

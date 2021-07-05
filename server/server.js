@@ -151,7 +151,15 @@ app.get("/rating.json", async (request, response) => {
         const otherUserId = request.query.q;
         console.log(otherUserId);
         const result = await db.averageRating(otherUserId);
-        response.json({ success: true, rating: result.rows[0] });
+        const check = await db.checkRating(
+            request.session.user.id,
+            otherUserId
+        );
+        response.json({
+            success: true,
+            rating: result.rows[0],
+            check: check.rows.length ? true : false,
+        });
     } catch (error) {
         console.log(error);
         response.status(400).json({ error: true });
@@ -160,9 +168,9 @@ app.get("/rating.json", async (request, response) => {
 
 app.post("/rating.json", async (request, response) => {
     try {
-        const { otherUserId, rating } = request.body;
+        const { otherUserId, ratingValue } = request.body;
         const id = request.session.user.id;
-        await db.setRating(id, otherUserId, rating);
+        await db.setRating(id, otherUserId, ratingValue);
         response.json({ success: true });
     } catch (error) {
         console.log(error);
