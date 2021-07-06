@@ -22,3 +22,15 @@ export async function deleteFriends(otherUserId) {
     await axios.post(`/crudfriendstatus/unfriend/${otherUserId}.json`);
     return { type: "UNFRIEND", otherUserId };
 }
+
+export function addChatWindow(targetId) {
+    return { type: "ADD_CHAT_WINDOW", targetId };
+}
+
+export function closeChatWindow(targetId) {
+    return { type: "CLOSE_CHAT_WINDOW", targetId };
+}
+
+// // //export function setMessages(messages) {
+// //     return { type: "SET_MESSAGES", messages };
+// }

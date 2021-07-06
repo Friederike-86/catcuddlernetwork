@@ -31,24 +31,3 @@ export default function (state = {}, action) {
     console.log("state", state);
     return state;
 }
-
-export default function chat(state = initialState, action) {
-  switch (action.type) {
-    case Actions.SET_MESSAG:
-      return Object.assign({}, state, {
-        messages: state.messages.concat([action.msg]),
-      })
-
-    case Actions.ADD_MESSAGE:
-      return Object.assign({}, state, {
-        messages: state.messages.concat([action.msg]),
-      })
-
-    default:
-      return state
-  }
-}
-
-const initialState = {
-  messages: [],
-}

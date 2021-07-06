@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { getFriends, acceptFriends, deleteFriends } from "./action";
 import ProfilePicture from "./ProfilePicture";
+import { Link } from "react-router-dom";
 
 export default function FriendsList() {
     const dispatch = useDispatch();
@@ -68,6 +69,9 @@ export default function FriendsList() {
                                     <p>
                                         {res.first} {res.last}
                                     </p>
+                                    <Link to={`/chat/${res.id}`}>
+                                        Contact CatCuddler
+                                    </Link>
                                 </div>
                                 <button
                                     onClick={() =>

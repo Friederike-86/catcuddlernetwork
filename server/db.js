@@ -141,11 +141,21 @@ module.exports.getFriends = (id) => {
     );
 };
 
-module.exports.addMessage = (sender, receiver, msg) =>
+module.exports.addChatMessages = (sender_id, receiver_id, chatmessage) =>
     db.query(
-        `INSERT INTO messages(sender, receiver, msg) VALUES($1, $2, $3) RETURNING *;`,
-        [sender, receiver, msg]
+        `INSERT INTO chats(sender_id, receiver_id, msg) VALUES($1, $2, $3) RETURNING *;`,
+        [sender_id, receiver_id, chatmessage]
     );
+module.exports.getMessagesFirst = (myId, targetUserId) => {
+    return db.query(
+        `
+        SELECT * FROM messages 
+        WHERE (sender = $1 AND receiver = $2) OR (receiver = $1 AND sender = $2)
+        ORDER BY created_at DESC LIMIT 20;
+        `,
+        [myId, targetUserId]
+    );
+};
 
 module.exports.setRating = (sender_id, receiver_id, rating) =>
     db.query(
@@ -162,4 +172,10 @@ module.exports.checkRating = (sender_id, receiver_id) =>
     db.query("SELECT id FROM ratings WHERE sender_id=$1 AND receiver_id=$2", [
         sender_id,
         receiver_id,
+    ]);
+
+module.exports.saveUser = (id, socket) =>
+    db.query("INSERT INTO closedchat ( user_id, socket ) VALUES ($1, $2) ", [
+        id,
+        socket,
     ]);
