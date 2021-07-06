@@ -38,6 +38,9 @@ export default function FriendsList() {
                                         {res.first} {res.last}
                                     </p>
                                 </div>
+                                <Link to={`/chat/${res.id}`}>
+                                    Contact CatCuddler
+                                </Link>
                                 <button
                                     onClick={() =>
                                         dispatch(acceptFriends(res.id))
