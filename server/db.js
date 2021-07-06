@@ -143,7 +143,7 @@ module.exports.getFriends = (id) => {
 
 module.exports.addChatMessages = (sender_id, receiver_id, chatmessage) =>
     db.query(
-        `INSERT INTO chats(sender_id, receiver_id, msg) VALUES($1, $2, $3) RETURNING *;`,
+        `INSERT INTO messages (sender, receiver, msg) VALUES($1, $2, $3) RETURNING *;`,
         [sender_id, receiver_id, chatmessage]
     );
 module.exports.getMessagesFirst = (myId, targetUserId) => {
@@ -179,3 +179,9 @@ module.exports.saveUser = (id, socket) =>
         id,
         socket,
     ]);
+
+module.exports.deleteSocket = (id) =>
+    db.query("DELETE FROM closedchat WHERE user_id=$1", [id]);
+
+module.exports.getSocket = (id) =>
+    db.query("SELECT socket FROM closedchat WHERE user_id=$1", [id]);

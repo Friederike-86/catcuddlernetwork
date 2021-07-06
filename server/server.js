@@ -189,21 +189,31 @@ io.on("connection", async function (socket) {
 
     // if an unauthenticated user tries to connect to our WS,
     // we directly close the connection.
-    if (!socket.request.session.userId) {
+    if (!socket.request.session.user) {
         return socket.disconnect(true);
     }
 
     // if a user makes it here, they are logged in
-    const userId = socket.request.session.userId;
+    const userId = socket.request.session.user.id;
     await db.saveUser(userId, socket.id);
 
-    socket.on("chatMessage", async ({ message, userId }) => {
-        console.log(message, userId);
-        // const response = await addMessage(id, userId, message);
-        // socket.emit("chatMessage", {
-        //     userId: userId,
-        //     newMessage: response.rows[0],
-        // });
+    socket.on("chatMessage", async ({ message, receiver }) => {
+        console.log(message, receiver);
+        const response = await db.addChatMessages(userId, receiver, message);
+        const result = await db.getSocket(receiver);
+        if (result.rows.length) {
+            const socketId = result.rows[0].socket;
+            io.to(socketId).emit("newChatMessage", {
+                message,
+                sender: userId,
+            });
+        }
+    });
+    socket.on("newChatMessage", (message) => {
+        socket.emit("sendChatMessage", message);
+    });
+    socket.on("disconnect", async () => {
+        await db.deleteSocket(userId);
     });
 });
 server.listen(process.env.PORT || 3001, function () {

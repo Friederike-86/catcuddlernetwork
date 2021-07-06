@@ -24,7 +24,10 @@ export default function Chat(props) {
         if (e.key === "Enter") {
             e.preventDefault();
             console.log("message", e.target.value);
-            socket.emit("chatMessage", { message: e.target.value, userId });
+            socket.emit("chatMessage", {
+                message: e.target.value,
+                receiver: userId,
+            });
         }
     }
 
