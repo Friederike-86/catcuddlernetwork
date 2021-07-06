@@ -6,7 +6,7 @@ import Profile from "./Profile";
 import FindUser from "./FindUser";
 import OtherUserProfile from "./OtherUserProfile";
 import Friends from "./Friends.js";
-//import Chat from "./Chat.js";
+import Chat from "./Chat.js";
 import { BrowserRouter, Route } from "react-router-dom";
 import Navigation from "./Navigation";
 import Rating from "./Rating";
@@ -105,7 +105,7 @@ export default class App extends React.Component {
                             />
                             <Route path="/findUser" component={FindUser} />
                             <Route path="/friends" component={Friends} />
-                            {/* <Route path="/openchat" component={Chat} /> */}
+                            <Route path="/openchat" component={Chat} />
                         </>
                     </BrowserRouter>
                 </div>
