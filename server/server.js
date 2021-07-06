@@ -197,15 +197,21 @@ io.on("connection", async function (socket) {
     const userId = socket.request.session.user.id;
     await db.saveUser(userId, socket.id);
 
-    socket.on("chatMessage", async ({ message, receiver }) => {
+    socket.on("chatMessage", async ({ message, receiver, name }) => {
         console.log(message, receiver);
         const response = await db.addChatMessages(userId, receiver, message);
         const result = await db.getSocket(receiver);
         if (result.rows.length) {
+            socket.emit("newChatMessage", {
+                message,
+                sender: receiver,
+                name,
+            });
             const socketId = result.rows[0].socket;
             io.to(socketId).emit("newChatMessage", {
                 message,
                 sender: userId,
+                name,
             });
         }
     });

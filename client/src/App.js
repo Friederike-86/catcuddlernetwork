@@ -105,7 +105,12 @@ export default class App extends React.Component {
                             />
                             <Route path="/findUser" component={FindUser} />
                             <Route path="/friends" component={Friends} />
-                            <Route path="/chat/:id" component={Chat} />
+                            <Route
+                                path="/chat/:id"
+                                render={(props) => (
+                                    <Chat {...props} name={user.first} />
+                                )}
+                            />
                         </>
                     </BrowserRouter>
                 </div>

@@ -1,12 +1,17 @@
 import { useSelector } from "react-redux";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { socket } from "./socket";
 
 export default function Chat(props) {
     const userId = props.match.params.id;
     const chatRef = useRef();
-    const chatMessages = useSelector((state) => state.chatMessages);
+    const [text, setText] = useState("");
+    const chatMessages = useSelector(
+        (state) =>
+            state.messages &&
+            state.messages.filter((item) => item.sender == userId)
+    );
 
     useEffect(() => {
         console.log(chatRef.current);
@@ -27,17 +32,30 @@ export default function Chat(props) {
             socket.emit("chatMessage", {
                 message: e.target.value,
                 receiver: userId,
+                name: props.name,
             });
+            setText("");
         }
     }
 
     return (
         <div>
             <h2>Welcome to our CatcuddlerChat</h2>
-            <div className="chat-messages" ref={chatRef}></div>
+            <div className="chat-messages" ref={chatRef}>
+                {chatMessages &&
+                    chatMessages.map((item, index) => {
+                        return (
+                            <p key={index}>
+                                {item.name}: {item.message}
+                            </p>
+                        );
+                    })}
+            </div>
             <textarea
                 placeholder="Type your nice message in here"
                 onKeyDown={handleKeyDown}
+                value={text}
+                onChange={(e) => setText(e.target.value)}
             ></textarea>
         </div>
     );

@@ -27,6 +27,12 @@ export default function (state = {}, action) {
                 return user.id != action.otherUserId;
             }),
         };
+    } else if (action.type == "ADD_MESSAGE") {
+        const existingMessages = state.messages || [];
+        state = {
+            ...state,
+            messages: [...existingMessages, action.message],
+        };
     }
     console.log("state", state);
     return state;
