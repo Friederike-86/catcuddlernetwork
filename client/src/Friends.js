@@ -29,15 +29,18 @@ export default function FriendsList() {
                 {wannabees ? (
                     wannabees.length ? (
                         wannabees.map((res) => (
-                            <li key={res.id}>
-                                <div>
+                            <li className="lifriends" key={res.id}>
+                                <Link
+                                    className="abuttons"
+                                    to={`/user/${res.id}`}
+                                >
                                     <ProfilePicture
                                         pictureUrl={res.profile_picture_url}
                                     />
                                     <p>
                                         {res.first} {res.last}
                                     </p>
-                                </div>
+                                </Link>
                                 <Link
                                     className="abuttons"
                                     to={`/chat/${res.id}`}
@@ -67,21 +70,25 @@ export default function FriendsList() {
                 {friends ? (
                     friends.length ? (
                         friends.map((res) => (
-                            <li key={res.id}>
-                                <div>
+                            <li className="lifriends" key={res.id}>
+                                <Link
+                                    className="abuttons"
+                                    to={`/user/${res.id}`}
+                                >
                                     <ProfilePicture
                                         pictureUrl={res.profile_picture_url}
                                     />
                                     <p>
                                         {res.first} {res.last}
                                     </p>
-                                    <Link
-                                        className="abuttons"
-                                        to={`/chat/${res.id}`}
-                                    >
-                                        Contact CatCuddler
-                                    </Link>
-                                </div>
+                                </Link>
+                                <Link
+                                    className="abuttons"
+                                    to={`/chat/${res.id}`}
+                                >
+                                    Contact CatCuddler
+                                </Link>
+
                                 <button
                                     onClick={() =>
                                         dispatch(deleteFriends(res.id))

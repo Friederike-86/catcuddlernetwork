@@ -140,3 +140,7 @@ ul {
     margin: 0;
     padding: 0;
 }
+.lifriends {
+    display: flex;
+    flex-direction: column;
+}
