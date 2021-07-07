@@ -6,7 +6,7 @@ import { HashRouter, Route } from "react-router-dom";
 import Logo from "./Logo";
 
 export default function Welcome() {
-    // <> </>: React Fragment
+    // <> halo </>: React Fragment
     return (
         <div id="welcome">
             <h1>Welcome to the Social Network for CatCuddlers</h1>
