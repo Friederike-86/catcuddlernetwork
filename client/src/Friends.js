@@ -35,7 +35,7 @@ export default function FriendsList() {
                                     to={`/user/${res.id}`}
                                 >
                                     <ProfilePicture
-                                        pictureUrl={res.profile_picture_url}
+                                        url={res.profile_picture_url}
                                     />
                                     <p>
                                         {res.first} {res.last}
@@ -76,7 +76,7 @@ export default function FriendsList() {
                                     to={`/user/${res.id}`}
                                 >
                                     <ProfilePicture
-                                        pictureUrl={res.profile_picture_url}
+                                        url={res.profile_picture_url}
                                     />
                                     <p>
                                         {res.first} {res.last}
