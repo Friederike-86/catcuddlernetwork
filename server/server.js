@@ -4,7 +4,8 @@ const compression = require("compression");
 const path = require("path");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
-const secrets = require("./secrets.json");
+const sessionSecret =
+    process.env.SESSION_SECRET || require("./secrets").SESSION_SECRET;
 const db = require("./db.js");
 const uploader = require("./multer");
 const s3 = require("./s3.js");
@@ -13,7 +14,6 @@ const friends = require("./friends");
 const register = require("./register");
 //const login = require("./login");
 const reset = require("./resetpassword");
-const { request } = require("http");
 
 const server = require("http").Server(app);
 const io = require("socket.io")(server);
@@ -23,7 +23,7 @@ app.use(express.json());
 
 app.use(compression());
 const cookieSessionMiddleware = cookieSession({
-    secret: secrets.SESSION_SECRET,
+    secret: sessionSecret,
     maxAge: 1000 * 60 * 60 * 24 * 30,
 });
 
