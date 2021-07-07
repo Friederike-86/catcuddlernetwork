@@ -45,12 +45,16 @@ export default function FindUser() {
                         <li key={user.id}>
                             {!user ? null : (
                                 <>
-                                    <Link to={`/user/${user.id}`}>
+                                    <Link
+                                        className="abuttons"
+                                        to={`/user/${user.id}`}
+                                    >
                                         <ProfilePicture
                                             url={user.profile_picture_url}
                                         />
                                         <p>
-                                            {user.first} {user.last} {user.city}
+                                            {user.first} {user.last} ,{" "}
+                                            {user.city}
                                         </p>
                                     </Link>
                                 </>

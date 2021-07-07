@@ -60,8 +60,10 @@ export default class Login extends React.Component {
                         placeholder="Password"
                         type="password"
                     ></input>
-                    <button type="submit">Login</button>
-                    <Link to="/resetpassword">Forget Password?</Link>
+                    <button type="submit">Login 🐾 </button>
+                    <Link className="abuttons" to="/resetpassword">
+                        Forget Password? 🙀
+                    </Link>
                 </form>
             </>
         );

@@ -184,4 +184,7 @@ module.exports.deleteSocket = (id) =>
     db.query("DELETE FROM closedchat WHERE user_id=$1", [id]);
 
 module.exports.getSocket = (id) =>
-    db.query("SELECT socket FROM closedchat WHERE user_id=$1", [id]);
+    db.query(
+        "SELECT socket FROM closedchat WHERE user_id = $1 ORDER BY created_at DESC LIMIT 1;",
+        [id]
+    );

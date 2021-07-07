@@ -8,6 +8,19 @@ body {
     align-items: center;
 }
 
+header {
+    text-align: center;
+    font-size: 50px;
+}
+
+.logoheader {
+    width: 220px;
+    height: 150px;
+    position: absolute;
+    left: 15px;
+    object-fit: cover;
+}
+
 .melange {
     color: dimgray;
 }
@@ -28,6 +41,14 @@ input {
     background-color: white;
 }
 
+.biocontainer {
+    margin: 10px;
+    background-color: whitesmoke;
+    border: 1px solid black;
+    border-radius: 5px;
+    width: 150px;
+}
+
 button,
 .abuttons {
     display: flex;
@@ -43,8 +64,8 @@ button,
 }
 button:hover,
 a:hover {
-    color: gold;
-    background-color: honeydew;
+    color: black;
+    background-color: whitesmoke;
     text-decoration: none;
 }
 
@@ -68,11 +89,12 @@ a:hover {
     height: 200px;
     object-fit: cover;
     border-radius: 100%;
+    cursor: copy;
 }
 
 .profile-picture {
-    width: 80px;
-    height: 80px;
+    width: 200px;
+    height: 200px;
     object-fit: cover;
     border-radius: 100%;
     cursor: copy;
@@ -86,9 +108,8 @@ a:hover {
 
 .menue {
     position: fixed;
-    top: 20px;
-    right: 10px;
-    background-color: teal;
+    top: 70px;
+    right: 15px;
 }
 
 input[type="radio"] {
@@ -98,4 +119,24 @@ input[type="radio"] {
 .star {
     cursor: pointer;
     color: color 200ms;
+}
+ul {
+    list-style: none;
+}
+
+.chatwindow {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    height: 30vmin;
+    width: 100vmin;
+    background-color: whitesmoke;
+    border: 2px solid black;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 2px;
+}
+.chatwindow > p {
+    margin: 0;
+    padding: 0;
 }

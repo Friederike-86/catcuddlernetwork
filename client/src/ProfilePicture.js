@@ -11,7 +11,7 @@ export default class ProfilePicture extends React.Component {
                 <div onClick={clickHandler}>
                     <img
                         className="default-picture"
-                        src="img/Default-profile-pic.png"
+                        src="/img/Default-profile-pic.png"
                     />
                 </div>
             );

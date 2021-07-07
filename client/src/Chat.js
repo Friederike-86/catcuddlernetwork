@@ -41,7 +41,7 @@ export default function Chat(props) {
     return (
         <div>
             <h2>Welcome to our CatcuddlerChat</h2>
-            <div className="chat-messages" ref={chatRef}>
+            <div className="chatwindow" ref={chatRef}>
                 {chatMessages &&
                     chatMessages.map((item, index) => {
                         return (

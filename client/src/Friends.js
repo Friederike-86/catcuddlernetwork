@@ -38,7 +38,10 @@ export default function FriendsList() {
                                         {res.first} {res.last}
                                     </p>
                                 </div>
-                                <Link to={`/chat/${res.id}`}>
+                                <Link
+                                    className="abuttons"
+                                    to={`/chat/${res.id}`}
+                                >
                                     Contact CatCuddler
                                 </Link>
                                 <button
@@ -72,7 +75,10 @@ export default function FriendsList() {
                                     <p>
                                         {res.first} {res.last}
                                     </p>
-                                    <Link to={`/chat/${res.id}`}>
+                                    <Link
+                                        className="abuttons"
+                                        to={`/chat/${res.id}`}
+                                    >
                                         Contact CatCuddler
                                     </Link>
                                 </div>

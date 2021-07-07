@@ -64,7 +64,9 @@ export default class PasswordReset extends React.Component {
                                 placeholder="Email"
                             />
 
-                            <button type="submit">New Password</button>
+                            <button className="abuttons" type="submit">
+                                New Password
+                            </button>
                         </>
                     )}
                     {this.state.step === 2 && (
@@ -84,13 +86,17 @@ export default class PasswordReset extends React.Component {
                                 placeholder="Email-Code"
                             />
 
-                            <button type="submit">Reset</button>
+                            <button className="abuttons" type="submit">
+                                Reset
+                            </button>
                         </>
                     )}
                     {this.state.step === 3 && (
                         <>
                             <h1>Password-reset was successfull</h1>
-                            <Link to="/login">Login again</Link>
+                            <Link className="abuttons" to="/login">
+                                Login again
+                            </Link>
                         </>
                     )}
                 </form>

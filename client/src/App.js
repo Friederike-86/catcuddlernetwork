@@ -40,6 +40,13 @@ export default class App extends React.Component {
         } else {
             return (
                 <div>
+                    <header>
+                        <img
+                            className="logoheader"
+                            src="/img/CatCuddlers_Logo_final.png"
+                        />
+                        CatCuddlers Network{" "}
+                    </header>
                     <h1>Welcome, {user && user.first} ! </h1>
                     {/* <ProfilePicture
                         url={user.profile_picture_url}

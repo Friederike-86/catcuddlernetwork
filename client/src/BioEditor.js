@@ -47,8 +47,8 @@ export default class BioEditor extends React.Component {
             );
         }
         return (
-            <div className="bio-editor" onClick={clickHandler}>
-                <div>{bio}</div>
+            <div onClick={clickHandler}>
+                {bio && <div className="biocontainer">{bio}</div>}
                 <button onClick={() => this.setState({ isEditing: true })}>
                     {bio ? "Edit" : "Add Bio"}
                 </button>

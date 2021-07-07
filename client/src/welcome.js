@@ -9,7 +9,7 @@ export default function Welcome() {
     // <> </>: React Fragment
     return (
         <div id="welcome">
-            <h1>Welcome to the Social Network for Catcuddlers</h1>
+            <h1>Welcome to the Social Network for CatCuddlers</h1>
             <Logo />
 
             <HashRouter>

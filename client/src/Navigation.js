@@ -6,13 +6,20 @@ export default function Navigation() {
             <h3>Menue</h3>
             <ul>
                 <li>
-                    <Link to="/finduser">Find CatCuddlers</Link>
+                    <Link className="abuttons" to="/finduser">
+                        Find CatCuddlers
+                    </Link>
                 </li>
                 <li>
-                    <Link to="/friends">Show ur CatCuddlers</Link>
+                    <Link className="abuttons" to="/friends">
+                        Show ur CatCuddlers
+                    </Link>
                 </li>
+
                 <li>
-                    <Link to="/chat">Talk with CatCuddlers</Link>
+                    <Link className="abuttons" to="/">
+                        Ur Profile
+                    </Link>
                 </li>
             </ul>
         </nav>
