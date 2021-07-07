@@ -49,7 +49,9 @@ export default class OtherUserProfile extends React.Component {
                     <ProfilePicture url={profile_picture_url} />
                     <p>{bio}</p>
                     <FriendButton otherUserId={user.id} />
-                    <Link className="abuttons" to={`/chat/${user.id}`}></Link>
+                    <Link className="abuttons" to={`/chat/${user.id}`}>
+                        Contact CatCuddler
+                    </Link>
                     <Rating otherUserId={user.id} />
                 </div>
             );
