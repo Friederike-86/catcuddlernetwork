@@ -3,6 +3,7 @@ import axios from "./axios";
 import ProfilePicture from "./ProfilePicture.js";
 import FriendButton from "./FriendButton.js";
 import Rating from "./Rating";
+import { Link } from "react-router-dom";
 
 export default class OtherUserProfile extends React.Component {
     constructor(props) {
@@ -29,6 +30,7 @@ export default class OtherUserProfile extends React.Component {
     render() {
         const { first, last, city, profile_picture_url, bio } =
             this.state.user || "";
+
         const { user } = this.state;
 
         if (!user) {
@@ -47,6 +49,7 @@ export default class OtherUserProfile extends React.Component {
                     <ProfilePicture url={profile_picture_url} />
                     <p>{bio}</p>
                     <FriendButton otherUserId={user.id} />
+                    <Link className="abuttons" to={`/chat/${user.id}`}></Link>
                     <Rating otherUserId={user.id} />
                 </div>
             );
